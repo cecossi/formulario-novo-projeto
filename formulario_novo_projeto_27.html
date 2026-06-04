@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Novo Projeto — Preâmbulo Tech</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+<style>
+/* ─── TOKENS ─────────────────────────────────────────────── */
+:root {
+  --ch: #343748;   /* Charcoal  */
+  --nv: #2C3799;   /* Navy Blue */
+  --lg: #E7EBEE;   /* Light Gray */
+  --wh: #FFFFFF;
+  --dg: #2D2D2D;   /* Dark Gray (texto) */
+  --bd: #c8cdd5;   /* borda */
+  --ib: #f5f7f9;   /* input bg */
+}
+
+/* ─── RESET ──────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Calibri, 'Segoe UI', sans-serif; background: #c8cdd3; color: var(--dg); min-height: 100vh; }
+
+/* ─── PÁGINA ─────────────────────────────────────────────── */
+.pg { max-width: 960px; margin: 0 auto; padding: 36px 20px 72px; }
+
+/* ─── HEADER (split) ─────────────────────────────────────── */
+.hd { display: flex; border-radius: 4px 4px 0 0; overflow: hidden; }
+.hd-e { background: var(--ch); width: 220px; flex-shrink: 0; padding: 22px 24px; display: flex; flex-direction: column; justify-content: flex-end; gap: 4px; }
+.hd-e .marca { font-family: Montserrat, Calibri, sans-serif; font-weight: 800; font-size: 9px; letter-spacing: .22em; text-transform: uppercase; color: rgba(255,255,255,.38); }
+.hd-e .data  { font-family: Montserrat, Calibri, sans-serif; font-weight: 700; font-size: 9px; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.22); }
+.hd-d { background: var(--lg); flex: 1; padding: 22px 34px; display: flex; flex-direction: column; justify-content: center; border-bottom: 3px solid var(--nv); }
+.hd-d h1 { font-family: Montserrat, Calibri, sans-serif; font-weight: 800; font-size: 21px; color: var(--dg); }
+.hd-d .sub { font-family: Montserrat, Calibri, sans-serif; font-weight: 700; font-size: 10px; color: var(--nv); margin-top: 4px; letter-spacing: .05em; }
+
+/* ─── SEÇÃO (split) ──────────────────────────────────────── */
+.sec { display: flex; border: 1px solid var(--bd); border-top: none; background: var(--wh); }
+.sec.last { border-radius: 0 0 4px 4px; }
+.sec.last .se { border-radius: 0 0 0 4px; }
+.sec.oculto { display: none !important; }
+
+/* painel esquerdo */
+.se { width: 220px; flex-shrink: 0; background: var(--ch); padding: 26px 20px; display: flex; flex-direction: column; gap: 4px; }
+.se.nv { background: var(--nv); }
+.se .num { font-family: Montserrat, Calibri, sans-serif; font-weight: 800; font-size: 24px; color: rgba(255,255,255,.1); line-height: 1; }
+.se .tit { font-family: Montserrat, Calibri, sans-serif; font-weight: 700; font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--wh); line-height: 1.4; margin-top: 3px; }
+.se .desc { font-size: 11px; color: rgba(255,255,255,.36); line-height: 1.5; margin-top: 5px; }
+
+/* painel direito */
+.sd { flex: 1; background: var(--wh); padding: 26px 30px 34px; display: flex; flex-direction: column; gap: 18px; }
+
+/* ─── GRID ───────────────────────────────────────────────── */
+.row { display: flex; gap: 16px; }
+.row > * { flex: 1; min-width: 0; }
+
+/* ─── CAMPO ──────────────────────────────────────────────── */
+.f { display: flex; flex-direction: column; gap: 5px; }
+.f > label { font-family: Montserrat, Calibri, sans-serif; font-weight: 700; font-size: 9px; letter-spacing: .13em; text-transform: uppercase; color: var(--nv); }
+.f > label .ob { color: #c0392b; margin-left: 1px; }
+.hint { font-size: 11px; color: #8a96a3; font-family: Calibri, sans-serif; }
+
+/* ─── INPUTS ─────────────────────────────────────────────── */
+input[type=text], input[type=email], input[type=tel],
+input[type=date], input[type=number], select, textarea {
+  width: 100%; padding: 8px 12px; background: var(--ib);
+  border: 1.5px solid var(--bd); border-radius: 3px;
+  font-family: Calibri, 'Segoe UI', sans-serif; font-size: 14px;
+  color: var(--dg); outline: none;
+  transition: border-color .13s, box-shadow .13s; -webkit-appearance: none;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: var(--nv); box-shadow: 0 0 0 3px rgba(44,55,153,.09); background: var(--wh);
+}
+textarea { resize: vertical; min-height: 74px; line-height: 1.5; }
+select {
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%232C3799' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 11px center; padding-right: 30px;
+}
+
+/* ─── PILLS ──────────────────────────────────────────────── */
+.pills { display: flex; flex-wrap: wrap; gap: 6px; }
+.pills label {
+  display: inline-flex; align-items: center; padding: 6px 12px;
+  background: var(--lg); border: 1.5px solid var(--bd); border-radius: 2px;
+  font-family: Montserrat, Calibri, sans-serif; font-size: 9px; font-weight: 700;
+  letter-spacing: .09em; text-transform: uppercase; color: var(--ch);
+  cursor: pointer; user-select: none; transition: background .1s, border-color .1s, color .1s;
+}
+.pills input[type=radio], .pills input[type=checkbox] { display: none; }
+.pills label:has(input:checked), .pills label.on {
+  background: var(--nv); border-color: var(--nv); color: var(--wh);
+}
+
+/* ─── SUBTÍTULO INTERNO (sub-heading) ────────────────────── */
+.sh {
+  font-family: Montserrat, Calibri, sans-serif; font-weight: 700;
+  font-size: 9px; letter-spacing: .13em; text-transform: uppercase;
+  color: var(--nv); padding-bottom: 7px; border-bottom: 1.5px solid var(--lg);
+}
+
+/* ─── INSET (discovery, cópia) ───────────────────────────── */
+.ins { display: none; flex-direction: column; gap: 13px; padding: 15px 17px; background: var(--lg); border-left: 3px solid var(--nv); border-radius: 0 3px 3px 0; }
+.ins.on { display: flex; }
+
+/* ─── ALERTA ─────────────────────────────────────────────── */
+.alerta { background: #fff8e1; border-left: 3px solid #f5a623; padding: 10px 13px; font-size: 12px; color: #7a5c00; border-radius: 0 3px 3px 0; font-family: Calibri, sans-serif; line-height: 1.5; }
+
+/* ─── CARTEIRA ───────────────────────────────────────────── */
+.crow { display: flex; gap: 9px; align-items: center; }
+.crow input, .crow select { flex: 1; }
+
+/* ─── AÇÕES ──────────────────────────────────────────────── */
+.alist { display: flex; flex-direction: column; gap: 9px; }
+.aitem { display: flex; gap: 9px; align-items: center; }
+.aitem input { flex: 1; }
+.xbtn { background: none; border: none; color: #bbc; font-size: 19px; cursor: pointer; padding: 2px 4px; border-radius: 2px; transition: color .1s; line-height: 1; }
+.xbtn:hover { color: #c0392b; }
+
+/* ─── BOTÃO ADICIONAR ────────────────────────────────────── */
+.add { align-self: flex-start; margin-top: 3px; padding: 6px 15px; background: transparent; border: 1.5px dashed var(--nv); border-radius: 3px; color: var(--nv); font-family: Montserrat, Calibri, sans-serif; font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; transition: background .1s, color .1s; }
+.add:hover { background: var(--nv); color: var(--wh); }
+
+/* ─── RODAPÉ ─────────────────────────────────────────────── */
+.rod { display: flex; justify-content: flex-end; gap: 12px; padding-top: 22px; }
+.bsec { padding: 10px 24px; background: transparent; border: 1.5px solid var(--ch); border-radius: 3px; color: var(--ch); font-family: Montserrat, Calibri, sans-serif; font-size: 9.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; transition: background .1s, color .1s; }
+.bsec:hover { background: var(--ch); color: var(--wh); }
+.bpri { padding: 10px 28px; background: var(--nv); border: 1.5px solid var(--nv); border-radius: 3px; color: var(--wh); font-family: Montserrat, Calibri, sans-serif; font-size: 9.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; transition: background .1s; }
+.bpri:hover { background: #1e2870; border-color: #1e2870; }
+
+/* ─── CONDICIONAIS COMERCIAIS ────────────────────────────── */
+.c3, .cof, .ccob { display: none; }
+
+/* ─── HINT ATENDIMENTOS ──────────────────────────────────── */
+.atend-h { display: none; font-family: Montserrat, sans-serif; font-size: 8.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--nv); opacity: .7; margin-top: 1px; }
+
+@media (max-width: 620px) {
+  .hd-e, .se { display: none; }
+  .row { flex-direction: column; gap: 13px; }
+  .sd { padding: 18px 15px 22px; }
+}
+</style>
+</head>
+<body>
+<div class="pg">
+
+<!-- HEADER -->
+<div class="hd">
+  <div class="hd-e">
+    <span class="marca">Preâmbulo Tech</span>
+    <span class="data" id="hdata"></span>
+  </div>
+  <div class="hd-d">
+    <h1>Registro de Novo Projeto</h1>
+    <div class="sub">CPJ-3C · Office ADV · CPJ Cobrança</div>
+  </div>
+</div>
+
+<!-- 01 IDENTIFICAÇÃO -->
+<div class="sec" id="s01">
+  <div class="se"><div class="num">01</div><div class="tit">Identificação do Projeto</div><div class="desc">Sistema, produto, usuários e entrada de dados.</div></div>
+  <div class="sd">
+    <div class="f"><label>Nome / Razão Social do Cliente <span class="ob">*</span></label><input type="text" id="cliente" placeholder="Ex: Escritório Silva & Associados"></div>
+    <div class="f" style="max-width:260px"><label>Código do Cliente</label><input type="text" id="cod" placeholder="Ex: 47004"></div>
+    <div class="row">
+      <div class="f"><label>Sistema de Origem</label>
+        <select id="orig"><option value="">Selecione</option><option>Astrea</option><option>Advbox</option><option>Legal One</option><option>Themis</option><option>Projuris ADV</option><option>SAJ ADV</option><option>Advwin</option><option>Espaider</option><option>Lawyer Eleven</option><option>Linte</option><option>MultiAdv</option><option>DataJuri</option><option>ADVfast</option><option>Juridiq</option><option>LexDoc</option><option>CPJ-3C</option><option>Sem sistema anterior</option><option>Outro</option></select>
+      </div>
+      <div class="f"><label>Prazo Limite de Migração <span class="ob">*</span></label><input type="date" id="prazo"></div>
+    </div>
+    <div class="f"><label>Sistema Contratado <span class="ob">*</span></label>
+      <div class="pills">
+        <label><input type="radio" name="sis" value="CPJ-3C"><span>CPJ-3C</span></label>
+        <label><input type="radio" name="sis" value="Office ADV"><span>Office ADV</span></label>
+        <label><input type="radio" name="sis" value="CPJ Cobrança"><span>CPJ Cobrança</span></label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="f" id="prod-f"><label>Produto Contratado</label><select id="produto"><option value="">Selecione o sistema primeiro</option></select></div>
+      <div class="f"><label>Nº de Usuários Contratados</label><input type="number" id="usr_c" placeholder="Ex: 15" min="1"></div>
+    </div>
+    <div class="row">
+      <div class="f"><label>Nº de Usuários Efetivos <span class="hint">(após ajuste)</span></label><input type="number" id="usr_e" placeholder="Ex: 10" min="1"></div>
+      <div class="f"><label>Área de Atuação</label><input type="text" id="area" placeholder="Ex: Consumidor, Trabalhista, Cível..."></div>
+    </div>
+    <div class="f"><label>Volume Processual Estimado</label>
+      <div class="pills">
+        <label><input type="radio" name="vol" value="Até 500"><span>Até 500</span></label>
+        <label><input type="radio" name="vol" value="500 – 2K"><span>500 – 2K</span></label>
+        <label><input type="radio" name="vol" value="2K – 10K"><span>2K – 10K</span></label>
+        <label><input type="radio" name="vol" value="> 10K"><span>&gt; 10K</span></label>
+        <label><input type="radio" name="vol" value="A verificar"><span>A Verificar</span></label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="f"><label>O Escritório Presta Serviço Para</label>
+        <div class="pills">
+          <label><input type="radio" name="tc" value="Pessoa Física"><span>Pessoa Física</span></label>
+          <label><input type="radio" name="tc" value="Pessoa Jurídica"><span>Pessoa Jurídica</span></label>
+          <label><input type="radio" name="tc" value="Ambos"><span>Ambos</span></label>
+        </div>
+      </div>
+      <div class="f"><label>Relevância do Projeto</label>
+        <div class="pills">
+          <label><input type="radio" name="rel" value="Baixa"><span>Baixa</span></label>
+          <label><input type="radio" name="rel" value="Média"><span>Média</span></label>
+          <label><input type="radio" name="rel" value="Alta"><span>Alta</span></label>
+        </div>
+      </div>
+    </div>
+    <div class="f"><label>Formato de Input de Dados <span class="ob">*</span></label>
+      <div class="pills">
+        <label><input type="radio" name="inp" value="Migração de Sistemas"><span>Migração de Sistemas</span></label>
+        <label><input type="radio" name="inp" value="Discovery"><span>Discovery</span></label>
+        <label><input type="radio" name="inp" value="Planilha Padrão"><span>Planilha Padrão</span></label>
+        <label><input type="radio" name="inp" value="Base Zerada"><span>Base Zerada</span></label>
+        <label><input type="radio" name="inp" value="Cópia de Base de Outro Cliente"><span>Cópia de Base de Outro Cliente</span></label>
+      </div>
+    </div>
+    <div class="ins" id="disc-bloco">
+      <div class="f"><label>Tipo de Discovery <span class="ob">*</span></label>
+        <div class="pills">
+          <label><input type="checkbox" name="disc" value="Por OAB"><span>Por OAB</span></label>
+          <label><input type="checkbox" name="disc" value="Por CNPJ"><span>Por CNPJ</span></label>
+          <label><input type="checkbox" name="disc" value="Por CPF"><span>Por CPF</span></label>
+          <label><input type="checkbox" name="disc" value="Por número de processo"><span>Por Número de Processo</span></label>
+        </div>
+      </div>
+      <div class="f" id="d-oab" style="display:none"><label>Número(s) OAB</label><div class="hint">número e estado, separados por vírgula</div><input type="text" id="disc_oab" placeholder="Ex: 123456/PR, 78910/SP" style="margin-top:3px"></div>
+      <div class="f" id="d-cpfcnpj" style="display:none"><label id="d-cpfcnpj-lbl">CPF(s) / CNPJ(s)</label><div class="hint">separe por vírgula</div><textarea id="disc_cpfcnpj" rows="3" placeholder="Ex: 000.000.000-00" style="margin-top:3px"></textarea></div>
+      <div class="f" id="d-proc" style="display:none"><label>Números de Processo</label><div class="hint">cole abaixo — planilha pode ser enviada por e-mail ao implementador</div><textarea id="disc_proc" rows="4" placeholder="Ex: 0001234-12.2023.8.16.0004" style="margin-top:3px"></textarea></div>
+      <div class="f" id="d-count" style="display:none"><label>Count do Projeto</label><div class="hint">quantidade de processos levantada pelo comercial</div><input type="number" id="disc_count" placeholder="Ex: 1240" min="0" style="margin-top:3px"></div>
+    </div>
+    <div class="ins" id="copia-bloco">
+      <div class="row">
+        <div class="f"><label>Nome do Cliente de Origem</label><input type="text" id="copia_nome" placeholder="Ex: Escritório Souza & Lima"></div>
+        <div class="f"><label>Código do Cliente de Origem</label><input type="text" id="copia_cod" placeholder="Ex: 42301"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 02 CONTEXTO DO CLIENTE -->
+<div class="sec" id="s02">
+  <div class="se"><div class="num">02</div><div class="tit">Contexto do Cliente</div><div class="desc">Ponto focal, proprietário, perfil e riscos.</div></div>
+  <div class="sd">
+    <div class="f"><label>Ponto Focal Principal <span class="ob">*</span></label><input type="text" id="focal" placeholder="Nome do responsável pelo projeto no cliente"></div>
+    <div class="row">
+      <div class="f"><label>E-mail do Ponto Focal</label><input type="email" id="focal_email" placeholder="email@escritorio.com.br"></div>
+      <div class="f"><label>Telefone / WhatsApp</label><input type="tel" id="focal_tel" placeholder="(00) 00000-0000"></div>
+    </div>
+    <div class="f"><label>Proprietário / Sócio</label><input type="text" id="prop" placeholder="Nome e nível de envolvimento esperado"></div>
+    <div class="f"><label>Algum Usuário Já Usou o Sistema Contratado?</label>
+      <div class="pills">
+        <label><input type="radio" name="exp" value="Sim"><span>Sim</span></label>
+        <label><input type="radio" name="exp" value="Não"><span>Não</span></label>
+        <label><input type="radio" name="exp" value="A verificar"><span>A Verificar</span></label>
+      </div>
+    </div>
+    <div class="f"><label>Perfil Operacional</label>
+      <div class="pills">
+        <label><input type="checkbox" name="perf" value="Bastante manual"><span>Bastante Manual</span></label>
+        <label><input type="checkbox" name="perf" value="Sem maturidade em processos"><span>Sem Maturidade em Processos</span></label>
+        <label><input type="checkbox" name="perf" value="Precisa de suporte hands-on"><span>Suporte Hands-On</span></label>
+        <label><input type="checkbox" name="perf" value="Experiência com ERPs"><span>Experiência com ERPs</span></label>
+        <label><input type="checkbox" name="perf" value="Autossuficiente"><span>Autossuficiente</span></label>
+      </div>
+    </div>
+    <div class="f"><label>Observações sobre o Cliente</label><div class="hint">comportamento, expectativas, riscos</div><textarea id="obs_cli" rows="3" placeholder="Ex: sócio com pouco envolvimento, equipe resistente a mudanças..." style="margin-top:3px"></textarea></div>
+  </div>
+</div>
+
+<!-- 03 DORES E OBJETIVOS -->
+<div class="sec" id="s03">
+  <div class="se"><div class="num">03</div><div class="tit">Dores e Objetivos</div><div class="desc">O que incomoda hoje e o que esperam alcançar.</div></div>
+  <div class="sd">
+    <div class="f"><label>Principais Dores Relatadas</label><div class="hint">o que está incomodando hoje</div>
+      <div class="pills" style="margin-top:5px">
+        <label><input type="checkbox" name="dor" value="Perda de prazo"><span>Perda de Prazo</span></label>
+        <label><input type="checkbox" name="dor" value="Falta de controle financeiro"><span>Falta de Controle Financeiro</span></label>
+        <label><input type="checkbox" name="dor" value="Planilhas como sistema"><span>Planilhas Como Sistema</span></label>
+        <label><input type="checkbox" name="dor" value="Falta de visibilidade da equipe"><span>Falta de Visibilidade da Equipe</span></label>
+        <label><input type="checkbox" name="dor" value="Dificuldade de escalar"><span>Dificuldade de Escalar</span></label>
+        <label><input type="checkbox" name="dor" value="Sistema anterior ruim"><span>Sistema Anterior Ruim</span></label>
+        <label><input type="checkbox" name="dor" value="Publicações e intimações"><span>Publicações e Intimações</span></label>
+        <label><input type="checkbox" name="dor" value="Falta de integração"><span>Falta de Integração</span></label>
+        <label><input type="checkbox" name="dor" value="Sem relatórios/indicadores"><span>Sem Relatórios/Indicadores</span></label>
+      </div>
+      <input type="text" id="dor_out" placeholder="Outras dores não listadas acima..." style="margin-top:9px">
+    </div>
+    <div class="f"><label>Principais Objetivos com o Projeto</label><div class="hint">o que esperam alcançar</div>
+      <div class="pills" style="margin-top:5px">
+        <label><input type="checkbox" name="obj" value="Centralizar gestão processual"><span>Centralizar Gestão Processual</span></label>
+        <label><input type="checkbox" name="obj" value="Automatizar publicações"><span>Automatizar Publicações</span></label>
+        <label><input type="checkbox" name="obj" value="Controlar financeiro"><span>Controlar Financeiro</span></label>
+        <label><input type="checkbox" name="obj" value="Produtividade da equipe"><span>Produtividade da Equipe</span></label>
+        <label><input type="checkbox" name="obj" value="Reduzir retrabalho"><span>Reduzir Retrabalho</span></label>
+        <label><input type="checkbox" name="obj" value="Indicadores de desempenho"><span>Indicadores de Desempenho</span></label>
+        <label><input type="checkbox" name="obj" value="Escalar sem aumentar custo"><span>Escalar Sem Aumentar Custo</span></label>
+        <label><input type="checkbox" name="obj" value="Profissionalizar a gestão"><span>Profissionalizar a Gestão</span></label>
+      </div>
+      <input type="text" id="obj_out" placeholder="Outros objetivos não listados acima..." style="margin-top:9px">
+    </div>
+    <div class="f"><label>Critério de Sucesso do Projeto</label><div class="hint">como o cliente vai saber que deu certo?</div><textarea id="criterio" rows="3" placeholder="Ex: equipe usando o sistema de forma autônoma no prazo..." style="margin-top:3px"></textarea></div>
+  </div>
+</div>
+
+<!-- 04 MODELO COMERCIAL -->
+<div class="sec" id="s04">
+  <div class="se"><div class="num">04</div><div class="tit">Modelo Comercial</div><div class="desc">Horas, atendimentos e módulos contratados.</div></div>
+  <div class="sd">
+    <div class="row">
+      <div class="f"><label>Horas Incluídas no Pacote</label><input type="number" id="hrs" placeholder="Ex: 5" min="0"></div>
+      <div class="f">
+        <label>Total de Atendimentos Previstos</label>
+        <input type="number" id="atend" placeholder="Ex: 10" min="0">
+        <div class="atend-h" id="atend-h"></div>
+      </div>
+    </div>
+    <!-- NF — 3C e Office -->
+    <div class="f c3 cof"><label>Nota Fiscal</label>
+      <div class="pills"><label><input type="radio" name="nf" value="Ativa"><span>Ativa</span></label><label><input type="radio" name="nf" value="Não ativa agora"><span>Não Ativa Agora</span></label><label><input type="radio" name="nf" value="A definir"><span>A Definir</span></label></div>
+    </div>
+    <div class="f c3 cof" id="nf-mun" style="display:none"><label>Município(s) da Nota Fiscal</label><input type="text" id="nf_mun" placeholder="Ex: Maringá, São Paulo..."></div>
+    <!-- Bank — todos -->
+    <div class="f c3 cof ccob"><label>Preâmbulo Bank</label>
+      <div class="pills"><label><input type="radio" name="bank" value="Ativo"><span>Ativo</span></label><label><input type="radio" name="bank" value="Não ativo agora"><span>Não Ativo Agora</span></label><label><input type="radio" name="bank" value="A definir"><span>A Definir</span></label></div>
+    </div>
+    <div class="f c3 cof ccob" id="bank-tipo" style="display:none"><label>Modalidade do Preâmbulo Bank</label>
+      <div class="pills"><label><input type="radio" name="bank_t" value="Ativa apenas conta"><span>Ativa Apenas Conta</span></label><label><input type="radio" name="bank_t" value="Ativa conta + integração"><span>Ativa Conta + Integração</span></label></div>
+    </div>
+    <!-- CRIA.AI — 3C -->
+    <div class="f c3"><label>Peças com CRIA.AI</label>
+      <div class="pills"><label><input type="radio" name="cria" value="Ativo"><span>Ativo</span></label><label><input type="radio" name="cria" value="Não ativo agora"><span>Não Ativo Agora</span></label><label><input type="radio" name="cria" value="A definir"><span>A Definir</span></label></div>
+    </div>
+    <div class="f c3"><label>Cadastro com CRIA.AI (Maestro)</label>
+      <div class="pills"><label><input type="radio" name="maestro" value="Ativo"><span>Ativo</span></label><label><input type="radio" name="maestro" value="Não ativo agora"><span>Não Ativo Agora</span></label><label><input type="radio" name="maestro" value="A definir"><span>A Definir</span></label></div>
+    </div>
+    <!-- Financeiro Avançado — 3C -->
+    <div class="f c3"><label>Financeiro Avançado</label>
+      <div class="pills"><label><input type="radio" name="fin_av" value="Ativo"><span>Ativo</span></label><label><input type="radio" name="fin_av" value="Não ativo agora"><span>Não Ativo Agora</span></label><label><input type="radio" name="fin_av" value="A definir"><span>A Definir</span></label></div>
+    </div>
+    <!-- Intimação Eletrônica — 3C -->
+    <div class="f c3"><label>Intimação Eletrônica</label>
+      <div class="pills"><label><input type="radio" name="intim" value="Ativo"><span>Ativo</span></label><label><input type="radio" name="intim" value="Não ativo agora"><span>Não Ativo Agora</span></label><label><input type="radio" name="intim" value="A definir"><span>A Definir</span></label></div>
+    </div>
+    <div class="f c3" id="intim-t" style="display:none"><label>Termos</label><input type="text" id="intim_t" placeholder="Ex: TJPR, TJSP, PJe, e-SAJ..."></div>
+    <!-- Controladoria — 3C -->
+    <div class="f c3"><label>Treinamento de Controladoria Avançada</label>
+      <div class="pills"><label><input type="radio" name="ctrl" value="Ativo"><span>Ativo</span></label><label><input type="radio" name="ctrl" value="Não ativo agora"><span>Não Ativo Agora</span></label><label><input type="radio" name="ctrl" value="A definir"><span>A Definir</span></label></div>
+    </div>
+    <!-- Protocolo — 3C -->
+    <div class="f c3"><label>Protocolo</label>
+      <div class="pills"><label><input type="radio" name="prot" value="Ativo"><span>Ativo</span></label><label><input type="radio" name="prot" value="Não ativo agora"><span>Não Ativo Agora</span></label><label><input type="radio" name="prot" value="A definir"><span>A Definir</span></label></div>
+    </div>
+    <!-- Robôs — 3C -->
+    <div class="f c3"><label>Robôs</label>
+      <div class="pills"><label><input type="radio" name="rob" value="Ativo"><span>Ativo</span></label><label><input type="radio" name="rob" value="Não ativo agora"><span>Não Ativo Agora</span></label><label><input type="radio" name="rob" value="A definir"><span>A Definir</span></label></div>
+    </div>
+    <div class="f c3" id="rob-esp" style="display:none"><label>Especificar Robôs</label><input type="text" id="rob_esp" placeholder="Ex: robô de publicações, robô de intimações..."></div>
+    <!-- API Full — 3C -->
+    <div class="f c3"><label>API Full</label>
+      <div class="pills"><label><input type="radio" name="api" value="Ativo"><span>Ativo</span></label><label><input type="radio" name="api" value="Não ativo agora"><span>Não Ativo Agora</span></label><label><input type="radio" name="api" value="A definir"><span>A Definir</span></label></div>
+    </div>
+    <!-- CPJ Safe — 3C -->
+    <div class="f c3"><label>CPJ Safe</label>
+      <div class="pills"><label><input type="radio" name="safe" value="Ativo"><span>Ativo</span></label><label><input type="radio" name="safe" value="Não ativo agora"><span>Não Ativo Agora</span></label><label><input type="radio" name="safe" value="A definir"><span>A Definir</span></label></div>
+    </div>
+    <div class="f c3" id="safe-usr" style="display:none"><label>Nº de Usuários CPJ Safe</label><input type="number" id="safe_usr" placeholder="Ex: 5" min="1"></div>
+    <!-- Horas Consultoria — 3C e Cobrança -->
+    <div class="f c3 ccob"><label>Horas de Consultoria</label>
+      <div class="pills"><label><input type="radio" name="hcons" value="Incluso"><span>Incluso</span></label><label><input type="radio" name="hcons" value="Não incluso"><span>Não Incluso</span></label><label><input type="radio" name="hcons" value="A definir"><span>A Definir</span></label></div>
+    </div>
+    <div class="f c3 ccob" id="hcons-qtd" style="display:none"><label>Quantidade de Horas de Consultoria</label><input type="number" id="hcons_qtd" placeholder="Ex: 10" min="1"></div>
+    <!-- Obs — todos -->
+    <div class="f c3 cof ccob"><label>Observações Comerciais</label><div class="hint">condições especiais, descontos, SLAs</div><textarea id="obs_com" rows="3" placeholder="Ex: desconto negociado, carência..." style="margin-top:3px"></textarea></div>
+  </div>
+</div>
+
+<!-- 05 ABORDAGEM -->
+<div class="sec" id="s05">
+  <div class="se"><div class="num">05</div><div class="tit">Abordagem de Implementação</div><div class="desc">Atendimentos, kick-off e riscos técnicos.</div></div>
+  <div class="sd">
+    <div class="row">
+      <div class="f"><label>Atendimentos Pré-GoLive</label><input type="number" id="pre" placeholder="Ex: 2" min="0"></div>
+      <div class="f"><label>Atendimentos Pós-GoLive</label><input type="number" id="pos" placeholder="Ex: 5" min="0"></div>
+    </div>
+    <div class="f"><label>Instruções para o Kick-off</label><div class="hint">o que falar / o que NÃO falar</div><textarea id="kickoff" rows="3" placeholder="Ex: focar em publicações; NÃO mencionar notas explicativas..." style="margin-top:3px"></textarea></div>
+    <div class="f"><label>Observações Técnicas / Riscos</label><textarea id="obs_tec" rows="3" placeholder="Ex: migração de dados sensível, volumes grandes..."></textarea></div>
+  </div>
+</div>
+
+<!-- 06 CRONOGRAMA -->
+<div class="sec" id="s06">
+  <div class="se"><div class="num">06</div><div class="tit">Cronograma</div><div class="desc">Kick-off, base de dados e GoLive.</div></div>
+  <div class="sd">
+    <div class="row">
+      <div class="f"><label>Data do Kick-off</label><input type="date" id="dt_kick"></div>
+      <div class="f"><label>Responsável pela Base de Dados</label><input type="text" id="resp_base" placeholder="Nome do responsável"></div>
+    </div>
+    <div class="row">
+      <div class="f"><label>Prazo da Base de Dados</label><input type="date" id="dt_base"></div>
+      <div class="f"><label>Data GoLive Previsto</label><input type="date" id="dt_gl"></div>
+    </div>
+    <div class="f"><label>Outras Datas ou Marcos Relevantes</label><textarea id="marcos" rows="2" placeholder="Ex: reunião de alinhamento antes do kick-off..."></textarea></div>
+  </div>
+</div>
+
+<!-- 07 TIME INTERNO -->
+<div class="sec" id="s07">
+  <div class="se"><div class="num">07</div><div class="tit">Time Interno</div><div class="desc">Implementador, PMO e CS.</div></div>
+  <div class="sd">
+    <div class="row">
+      <div class="f"><label>Implementador <span class="ob">*</span></label><input type="text" id="impl" placeholder="Nome do implementador"></div>
+      <div class="f"><label>PMO</label><input type="text" id="pmo" placeholder="Nome do PMO"></div>
+    </div>
+    <div class="f" style="max-width:50%"><label>CS — Customer Success</label><input type="text" id="cs" placeholder="Nome do CS"></div>
+  </div>
+</div>
+
+<!-- 08 ITENS DE AÇÃO -->
+<div class="sec" id="s08">
+  <div class="se"><div class="num">08</div><div class="tit">Itens de Ação</div><div class="desc">Pendências e próximos passos.</div></div>
+  <div class="sd">
+    <div class="alist" id="alist">
+      <div class="aitem"><input type="text" placeholder="Descreva o item de ação..."><button class="xbtn" onclick="remAct(this)">×</button></div>
+      <div class="aitem"><input type="text" placeholder="Descreva o item de ação..."><button class="xbtn" onclick="remAct(this)">×</button></div>
+      <div class="aitem"><input type="text" placeholder="Descreva o item de ação..."><button class="xbtn" onclick="remAct(this)">×</button></div>
+    </div>
+    <button class="add" onclick="addAct()">+ Adicionar Item</button>
+  </div>
+</div>
+
+<!-- 09 CPJ COBRANÇA -->
+<div class="sec oculto" id="s09">
+  <div class="se nv"><div class="num">↳</div><div class="tit">CPJ Cobrança</div><div class="desc">Escopo de migração e implementação específico.</div></div>
+  <div class="sd">
+    <div class="alerta">⚠️ Esta seção é específica para projetos CPJ Cobrança. Preencha com base nas informações coletadas com o lead antes da reunião técnica.</div>
+    <div class="sh">Usuários</div>
+    <div class="row">
+      <div class="f"><label>Usuários de Cobrança</label><input type="number" id="cob_u" placeholder="Ex: 8" min="1"></div>
+      <div class="f"><label>Gestores de Cobrança</label><input type="number" id="cob_g" placeholder="Ex: 2" min="1"></div>
+    </div>
+    <div class="sh">Plano Contratado</div>
+    <div class="f"><label>Plano CPJ Cobrança</label>
+      <div class="pills"><label><input type="radio" name="cob_pl" value="Starter"><span>Starter</span></label><label><input type="radio" name="cob_pl" value="Professional"><span>Professional</span></label><label><input type="radio" name="cob_pl" value="Enterprise"><span>Enterprise</span></label></div>
+    </div>
+    <div class="sh">Carteiras a Implementar</div>
+    <div class="f"><div class="hint" style="margin-bottom:7px">Adicione cada carteira e sua classificação</div>
+      <div id="cart-list" style="display:flex;flex-direction:column;gap:9px">
+        <div class="crow"><input type="text" placeholder="Nome da carteira (ex: Sicredi...)"><select><option value="">Classificação</option><option>Especialista Fluxo Simples</option><option>Especialista Fluxo Complexo</option><option>Padrão</option><option>A verificar</option></select><button class="xbtn" onclick="remCart(this)">×</button></div>
+      </div>
+      <button class="add" onclick="addCart()">+ Adicionar Carteira</button>
+    </div>
+    <div class="sh">Migração de Dados</div>
+    <div class="f"><label>Origem dos Dados <span class="ob">*</span></label>
+      <div class="pills">
+        <label><input type="radio" name="cob_orig" value="Planilha padrão"><span>Planilha Padrão</span></label>
+        <label><input type="radio" name="cob_orig" value="CSV"><span>CSV</span></label>
+        <label><input type="radio" name="cob_orig" value="Backup de banco de dados"><span>Backup de Banco</span></label>
+        <label><input type="radio" name="cob_orig" value="Exportação do sistema legado"><span>Exportação do Sistema Legado</span></label>
+        <label><input type="radio" name="cob_orig" value="Outro"><span>Outro</span></label>
+      </div>
+    </div>
+    <div class="f" id="cob-orig-out" style="display:none"><label>Descreva a Origem</label><input type="text" id="cob_orig_t" placeholder="Detalhe o formato/fonte..."></div>
+    <div class="f"><label>Forma de Envio</label>
+      <div class="pills">
+        <label><input type="radio" name="cob_env" value="Upload pelo cliente"><span>Upload pelo Cliente</span></label>
+        <label><input type="radio" name="cob_env" value="Envio por e-mail"><span>Envio por E-mail</span></label>
+        <label><input type="radio" name="cob_env" value="FTP / repositório"><span>FTP / Repositório</span></label>
+        <label><input type="radio" name="cob_env" value="Outro"><span>Outro</span></label>
+      </div>
+    </div>
+    <div class="f"><label>Dados a Migrar</label><div class="hint">marque todos que se aplicam</div>
+      <div class="pills" style="margin-top:5px">
+        <label><input type="checkbox" name="cob_d" value="Pessoas (Devedor, Avalistas, Contatos)"><span>Pessoas</span></label>
+        <label><input type="checkbox" name="cob_d" value="Títulos e Parcelas"><span>Títulos e Parcelas</span></label>
+        <label><input type="checkbox" name="cob_d" value="Acordos"><span>Acordos</span></label>
+        <label><input type="checkbox" name="cob_d" value="Garantias"><span>Garantias</span></label>
+        <label><input type="checkbox" name="cob_d" value="Acionamentos"><span>Acionamentos</span></label>
+        <label><input type="checkbox" name="cob_d" value="Agendas futuras"><span>Agendas Futuras</span></label>
+        <label><input type="checkbox" name="cob_d" value="Custas"><span>Custas</span></label>
+        <label><input type="checkbox" name="cob_d" value="Documentos"><span>Documentos</span></label>
+        <label><input type="checkbox" name="cob_d" value="Boletos futuros já emitidos"><span>Boletos Futuros Emitidos</span></label>
+      </div>
+    </div>
+    <div id="cob-docs-av" style="display:none;flex-direction:column;gap:10px">
+      <div class="alerta">⚠️ <strong>Documentos:</strong> migração por planilha/CSV não contempla documentos. Confirme que o lead está ciente.</div>
+      <div class="f"><label>Lead Confirma Ciência?</label>
+        <div class="pills"><label><input type="radio" name="cob_ciente" value="Ciente — confirmado"><span>Ciente — Confirmado</span></label><label><input type="radio" name="cob_ciente" value="Não esclarecido — pendente"><span>Não Esclarecido — Pendente</span></label></div>
+      </div>
+    </div>
+    <div class="sh">Integrações com Fornecedores</div>
+    <div class="f"><label>Integrações Solicitadas</label><div class="hint">marque todas as desejadas</div>
+      <div class="pills" style="margin-top:5px">
+        <label><input type="checkbox" name="cob_int" value="CPJ-3C / Preâmbulo Office (processual)"><span>CPJ-3C / Office</span></label>
+        <label><input type="checkbox" name="cob_int" value="E-mail via SMTP do cliente"><span>E-mail via SMTP</span></label>
+        <label><input type="checkbox" name="cob_int" value="SMS — Assertiva"><span>SMS — Assertiva</span></label>
+        <label><input type="checkbox" name="cob_int" value="SMS — outro fornecedor"><span>SMS — Outro</span></label>
+        <label><input type="checkbox" name="cob_int" value="Higienização de Dados"><span>Higienização de Dados</span></label>
+        <label><input type="checkbox" name="cob_int" value="WhatsApp"><span>WhatsApp</span></label>
+      </div>
+    </div>
+    <div class="f" id="cob-higien" style="display:none"><label>Fornecedor de Higienização</label>
+      <div class="pills"><label><input type="radio" name="cob_hig" value="Procob"><span>Procob</span></label><label><input type="radio" name="cob_hig" value="Assertiva Localize"><span>Assertiva Localize</span></label><label><input type="radio" name="cob_hig" value="Cred Localiza"><span>Cred Localiza</span></label><label><input type="radio" name="cob_hig" value="Não contratado ainda"><span>Não Contratado Ainda</span></label><label><input type="radio" name="cob_hig" value="Outro"><span>Outro</span></label></div>
+    </div>
+    <div class="sh">Cálculos e Alçadas</div>
+    <div class="f"><label>Verificação de Cálculos Necessária?</label>
+      <div class="pills"><label><input type="radio" name="cob_calc" value="Sim — detalhar abaixo"><span>Sim</span></label><label><input type="radio" name="cob_calc" value="Não — configuração nativa atende"><span>Não</span></label><label><input type="radio" name="cob_calc" value="A verificar com o consultor"><span>A Verificar</span></label></div>
+    </div>
+    <div class="f"><label>Índices e Regras de Cálculo</label><div class="hint">ex: INPC, juros 1%, multa 2%</div><input type="text" id="cob_calc_t" placeholder="Ex: INPC, juros de 1%, multa de 2%..." style="margin-top:3px"></div>
+    <div class="f"><label>Documentação das Regras</label>
+      <div class="pills"><label><input type="radio" name="cob_docC" value="Fornecida pelo cliente"><span>Fornecida</span></label><label><input type="radio" name="cob_docC" value="Não fornecida — pendente"><span>Não Fornecida — Pendente</span></label></div>
+    </div>
+    <div class="sh">Virada em Produção</div>
+    <div class="f"><label>Horário da Virada</label>
+      <div class="pills"><label><input type="radio" name="cob_vir" value="Dia útil em horário comercial"><span>Dia Útil / Comercial</span></label><label><input type="radio" name="cob_vir" value="Fora do horário comercial"><span>Fora do Comercial</span></label><label><input type="radio" name="cob_vir" value="Final de semana"><span>Final de Semana</span></label><label><input type="radio" name="cob_vir" value="A definir"><span>A Definir</span></label></div>
+    </div>
+    <div class="f"><label>Observações sobre a Virada</label><textarea id="cob_obs_v" rows="2" placeholder="Ex: cliente solicita virada fora do horário comercial..."></textarea></div>
+  </div>
+</div>
+
+<!-- RODAPÉ -->
+<div class="rod">
+  <button class="bsec" onclick="limpar()">Limpar Formulário</button>
+  <button class="bpri" onclick="resumo()">Gerar Resumo</button>
+</div>
+
+</div><!-- /pg -->
+<script>
+/* ── data ── */
+const DN=['domingo','segunda-feira','terça-feira','quarta-feira','quinta-feira','sexta-feira','sábado'],MN=['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+const _n=new Date();document.getElementById('hdata').textContent=`${DN[_n.getDay()]}, ${_n.getDate()} de ${MN[_n.getMonth()]} de ${_n.getFullYear()}`;
+
+/* ── pill fallback ── */
+document.querySelectorAll('.pills input').forEach(i=>i.addEventListener('change',()=>{
+  const g=i.closest('.pills');
+  if(i.type==='radio'){g.querySelectorAll('label').forEach(l=>l.classList.remove('on'));i.closest('label').classList.add('on');}
+  else i.closest('label').classList.toggle('on',i.checked);
+}));
+
+/* ── helpers ── */
+const V=id=>(document.getElementById(id)?.value||'').trim();
+const R=n=>document.querySelector(`input[name="${n}"]:checked`)?.value||'';
+const CC=n=>[...document.querySelectorAll(`input[name="${n}"]:checked`)].map(i=>i.value);
+const SH=(id,s)=>{const e=document.getElementById(id);if(e)e.style.display=s?'flex':'none'};
+const FD=s=>{if(!s)return'';const[y,m,d]=s.split('-');return`${d}/${m}/${y}`};
+const p2=n=>String(n).padStart(2,'0');
+const hoje=()=>{const d=new Date();return`${p2(d.getDate())}/${p2(d.getMonth()+1)}/${d.getFullYear()}`};
+
+/* ── markLast: aplica borda arredondada na última seção visível ── */
+function markLast(){
+  const todas=[...document.querySelectorAll('.sec')];
+  todas.forEach(s=>s.classList.remove('last'));
+  const vis=todas.filter(s=>!s.classList.contains('oculto'));
+  if(vis.length) vis[vis.length-1].classList.add('last');
+}
+markLast();
+
+/* ── produtos ── */
+const PRODS={
+  'CPJ-3C':['Pacote One – CPJ-3C','Pacote Pro – CPJ-3C','Pacote Infinite – CPJ-3C','Pacote Enterprise – CPJ-3C'],
+  'Office ADV':['Pacote One – Office Adv','Pacote Pro – Office Adv','Pacote Infinite – Office Adv','Pacote Enterprise – Office Adv']
+};
+
+/* ── sistema changed ── */
+function onSis(v){
+  const sel=document.getElementById('produto');
+  sel.innerHTML='<option value="">Selecione</option>';
+  document.getElementById('prod-f').style.display=v==='CPJ Cobrança'?'none':'flex';
+  (PRODS[v]||[]).forEach(p=>{const o=document.createElement('option');o.value=o.textContent=p;sel.appendChild(o)});
+  const s9=document.getElementById('s09');
+  if(v==='CPJ Cobrança'){s9.classList.remove('oculto');setTimeout(()=>s9.scrollIntoView({behavior:'smooth',block:'start'}),100);}
+  else s9.classList.add('oculto');
+  markLast();
+  document.querySelectorAll('.c3,.cof,.ccob').forEach(e=>e.style.display='none');
+  if(v==='CPJ-3C')       document.querySelectorAll('.c3').forEach(e=>e.style.display='flex');
+  if(v==='Office ADV')   document.querySelectorAll('.cof').forEach(e=>e.style.display='flex');
+  if(v==='CPJ Cobrança') document.querySelectorAll('.ccob').forEach(e=>e.style.display='flex');
+  ['nf-mun','bank-tipo','intim-t','rob-esp','safe-usr','hcons-qtd'].forEach(id=>SH(id,false));
+  updAtend(v);
+}
+document.querySelectorAll('input[name="sis"]').forEach(i=>i.addEventListener('change',()=>onSis(i.value)));
+
+/* ── atendimentos automáticos ── */
+const AMAP={Baixa:3,Média:5,Alta:8};
+function updAtend(sis){
+  sis=sis||R('sis');const rel=R('rel');
+  const h=document.getElementById('atend-h');
+  if(sis==='CPJ-3C'&&rel&&AMAP[rel]){document.getElementById('atend').value=AMAP[rel];h.textContent=`Sugerido para relevância ${rel} — CPJ-3C`;h.style.display='block';}
+  else h.style.display='none';
+}
+document.querySelectorAll('input[name="rel"]').forEach(i=>i.addEventListener('change',()=>updAtend()));
+
+/* ── discovery ── */
+function updDisc(){
+  const ok=R('inp')==='Discovery'&&(R('sis')==='CPJ-3C'||R('sis')==='Office ADV');
+  document.getElementById('disc-bloco').classList.toggle('on',ok);
+  if(!ok){SH('d-count',false);return;}
+  const t=CC('disc');
+  SH('d-oab',t.includes('Por OAB'));
+  SH('d-cpfcnpj',t.includes('Por CPF')||t.includes('Por CNPJ'));
+  SH('d-proc',t.includes('Por número de processo'));
+  const lb=document.getElementById('d-cpfcnpj-lbl');
+  if(lb){const hC=t.includes('Por CPF'),hN=t.includes('Por CNPJ');lb.textContent=hC&&hN?'CPF(s)/CNPJ(s)':hN?'CNPJ(s)':'CPF(s)';}
+  SH('d-count',document.getElementById('produto')?.value?.includes('One'));
+}
+document.querySelectorAll('input[name="inp"]').forEach(i=>i.addEventListener('change',()=>{updDisc();document.getElementById('copia-bloco').classList.toggle('on',R('inp')==='Cópia de Base de Outro Cliente');}));
+document.querySelectorAll('input[name="disc"]').forEach(i=>i.addEventListener('change',updDisc));
+document.querySelectorAll('input[name="sis"]').forEach(i=>i.addEventListener('change',updDisc));
+document.getElementById('produto').addEventListener('change',updDisc);
+
+/* ── sub-campos simples ── */
+document.querySelectorAll('input[name="nf"]').forEach(i=>i.addEventListener('change',()=>SH('nf-mun',R('nf')==='Ativa')));
+document.querySelectorAll('input[name="bank"]').forEach(i=>i.addEventListener('change',()=>SH('bank-tipo',R('bank')==='Ativo')));
+document.querySelectorAll('input[name="intim"]').forEach(i=>i.addEventListener('change',()=>SH('intim-t',R('intim')==='Ativo')));
+document.querySelectorAll('input[name="rob"]').forEach(i=>i.addEventListener('change',()=>SH('rob-esp',R('rob')==='Ativo')));
+document.querySelectorAll('input[name="safe"]').forEach(i=>i.addEventListener('change',()=>SH('safe-usr',R('safe')==='Ativo')));
+document.querySelectorAll('input[name="hcons"]').forEach(i=>i.addEventListener('change',()=>SH('hcons-qtd',R('hcons')==='Incluso')));
+document.querySelectorAll('input[name="cob_orig"]').forEach(i=>i.addEventListener('change',()=>SH('cob-orig-out',R('cob_orig')==='Outro')));
+document.querySelectorAll('input[name="cob_d"]').forEach(i=>i.addEventListener('change',()=>{
+  const e=document.getElementById('cob-docs-av');if(e)e.style.display=document.querySelector('input[name="cob_d"][value="Documentos"]:checked')?'flex':'none';
+}));
+document.querySelectorAll('input[name="cob_int"]').forEach(i=>i.addEventListener('change',()=>SH('cob-higien',!!document.querySelector('input[name="cob_int"][value="Higienização de Dados"]:checked'))));
+
+/* ── carteiras ── */
+function addCart(){const l=document.getElementById('cart-list'),d=document.createElement('div');d.className='crow';d.innerHTML=`<input type="text" placeholder="Nome da carteira..."><select><option value="">Classificação</option><option>Especialista Fluxo Simples</option><option>Especialista Fluxo Complexo</option><option>Padrão</option><option>A verificar</option></select><button class="xbtn" onclick="remCart(this)">×</button>`;l.appendChild(d);d.querySelector('input').focus();}
+function remCart(b){const l=document.getElementById('cart-list');if(l.children.length>1)b.closest('.crow').remove();else{b.closest('.crow').querySelector('input').value='';b.closest('.crow').querySelector('select').selectedIndex=0;}}
+
+/* ── action items ── */
+function addAct(){const l=document.getElementById('alist'),d=document.createElement('div');d.className='aitem';d.innerHTML=`<input type="text" placeholder="Descreva o item de ação..."><button class="xbtn" onclick="remAct(this)">×</button>`;l.appendChild(d);d.querySelector('input').focus();}
+function remAct(b){const l=document.getElementById('alist');if(l.children.length>1)b.closest('.aitem').remove();else b.closest('.aitem').querySelector('input').value='';}
+
+/* ── limpar ── */
+function limpar(){
+  if(!confirm('Limpar todos os campos?'))return;
+  document.querySelectorAll('input[type=text],input[type=email],input[type=tel],input[type=number],textarea').forEach(e=>e.value='');
+  document.querySelectorAll('input[type=date]').forEach(e=>e.value='');
+  document.querySelectorAll('select').forEach(e=>e.selectedIndex=0);
+  document.querySelectorAll('input[type=radio],input[type=checkbox]').forEach(e=>{e.checked=false;e.closest('label').classList.remove('on');});
+  const al=document.getElementById('alist');al.innerHTML='';
+  for(let i=0;i<3;i++){const d=document.createElement('div');d.className='aitem';d.innerHTML=`<input type="text" placeholder="Descreva o item de ação..."><button class="xbtn" onclick="remAct(this)">×</button>`;al.appendChild(d);}
+  document.getElementById('s09').classList.add('oculto');
+  document.getElementById('prod-f').style.display='flex';
+  document.querySelectorAll('.c3,.cof,.ccob').forEach(e=>e.style.display='none');
+  ['nf-mun','bank-tipo','intim-t','rob-esp','safe-usr','hcons-qtd','cob-orig-out','cob-higien','d-oab','d-cpfcnpj','d-proc','d-count'].forEach(id=>SH(id,false));
+  document.getElementById('disc-bloco').classList.remove('on');
+  document.getElementById('copia-bloco').classList.remove('on');
+  const cd=document.getElementById('cob-docs-av');if(cd)cd.style.display='none';
+  document.getElementById('atend-h').style.display='none';
+  document.getElementById('cart-list').innerHTML=`<div class="crow"><input type="text" placeholder="Nome da carteira..."><select><option value="">Classificação</option><option>Especialista Fluxo Simples</option><option>Especialista Fluxo Complexo</option><option>Padrão</option><option>A verificar</option></select><button class="xbtn" onclick="remCart(this)">×</button></div>`;
+  markLast();
+}
+
+/* ── resumo ── */
+function resumo(){
+  const sis=R('sis');
+  const VM={'Até 500':'Até 500','500 – 2K':'500 a 2.000','2K – 10K':'2.000 a 10.000','> 10K':'Acima de 10.000','A verificar':'A verificar'};
+  const dores=CC('dor');if(V('dor_out'))dores.push(V('dor_out'));
+  const objs=CC('obj');if(V('obj_out'))objs.push(V('obj_out'));
+  const acts=[...document.querySelectorAll('#alist input')].map(i=>i.value.trim()).filter(Boolean);
+  const L=[];const l=s=>L.push(s);
+
+  l(`RESUMO DO PROJETO — ${sis||'A DEFINIR'}`);l(`Registro Interno | ${hoje()}`);l(`──────────────────────────────────────────────────`);
+  l(``);l(`1. IDENTIFICAÇÃO DO PROJETO`);l(``);
+  if(V('cliente'))l(`Cliente: ${V('cliente')}`);
+  if(V('cod'))l(`Código: ${V('cod')}`);
+  l(`Sistema contratado: ${sis||'A verificar'}`);
+  if(V('orig'))l(`Sistema de origem: ${V('orig')}`);
+  if(V('prazo'))l(`Prazo limite: ${FD(V('prazo'))}`);
+  if(sis!=='CPJ Cobrança'&&document.getElementById('produto').value)l(`Produto: ${document.getElementById('produto').value}`);
+  if(sis==='CPJ Cobrança'&&R('cob_pl'))l(`Plano CPJ Cobrança: ${R('cob_pl')}`);
+  const uc=V('usr_c'),ue=V('usr_e');if(uc||ue)l(`Usuários contratados: ${uc||'—'}${ue&&ue!==uc?` (redução para ${ue})`:''}`);
+  if(V('area'))l(`Área de atuação: ${V('area')}`);
+  if(R('vol'))l(`Volume processual: ${VM[R('vol')]||R('vol')}`);
+  if(R('tc'))l(`Clientes atendidos: ${R('tc')}`);
+  if(R('rel'))l(`Relevância: ${R('rel')}`);
+  if(R('inp'))l(`Input de dados: ${R('inp')}`);
+  if(R('inp')==='Cópia de Base de Outro Cliente'&&(V('copia_nome')||V('copia_cod')))l(`  Cliente de origem: ${V('copia_nome')||'—'}${V('copia_cod')?' (cód. '+V('copia_cod')+')':''}`);
+  const dt=CC('disc');
+  if(R('inp')==='Discovery'&&dt.length){l(`  Tipo(s): ${dt.join(', ')}`);if(V('disc_oab'))l(`  OAB(s): ${V('disc_oab')}`);if(V('disc_cpfcnpj'))l(`  CPF/CNPJ: ${V('disc_cpfcnpj')}`);if(V('disc_proc'))l(`  Processos: ${V('disc_proc')}`);if(V('disc_count'))l(`  Count do projeto: ${V('disc_count')} processos`);}
+
+  l(``);l(`──────────────────────────────────────────────────`);l(``);l(`2. CONTEXTO DO CLIENTE`);l(``);
+  if(V('focal'))l(`Ponto focal: ${V('focal')}`);l(`E-mail: ${V('focal_email')||'—'}`);l(`Telefone: ${V('focal_tel')||'—'}`);
+  if(V('prop'))l(`Proprietário: ${V('prop')}`);if(R('exp'))l(`Experiência no sistema: ${R('exp')}`);
+  const pf=CC('perf');if(pf.length)l(`Perfil: ${pf.join(' · ')}`);if(V('obs_cli')){l(``);l(V('obs_cli'));}
+
+  l(``);l(`──────────────────────────────────────────────────`);l(``);l(`3. DORES E OBJETIVOS`);l(``);
+  if(dores.length){l(`Dores:`);dores.forEach(d=>l(`  • ${d}`));}else l(`Dores: Não informado`);
+  l(``);if(objs.length){l(`Objetivos:`);objs.forEach(o=>l(`  • ${o}`));}else l(`Objetivos: Não informado`);
+  l(``);l(`Critério de sucesso: ${V('criterio')||'Não informado'}`);
+
+  l(``);l(`──────────────────────────────────────────────────`);l(``);l(`4. MODELO COMERCIAL`);l(``);
+  if(V('hrs'))l(`Horas no pacote: ${V('hrs')}h`);if(V('atend'))l(`Atendimentos previstos: ${V('atend')}`);
+  if(R('nf'))l(`Nota fiscal: ${R('nf')}${R('nf')==='Ativa'&&V('nf_mun')?' — '+V('nf_mun'):''}`);
+  if(R('bank'))l(`Preâmbulo Bank: ${R('bank')}${R('bank')==='Ativo'&&R('bank_t')?' — '+R('bank_t'):''}`);
+  if(R('cria'))l(`Peças CRIA.AI: ${R('cria')}`);if(R('maestro'))l(`Maestro: ${R('maestro')}`);
+  if(R('fin_av'))l(`Financeiro avançado: ${R('fin_av')}`);
+  if(R('intim'))l(`Intimação eletrônica: ${R('intim')}${R('intim')==='Ativo'&&V('intim_t')?' — '+V('intim_t'):''}`);
+  if(R('ctrl'))l(`Controladoria avançada: ${R('ctrl')}`);if(R('prot'))l(`Protocolo: ${R('prot')}`);
+  if(R('rob'))l(`Robôs: ${R('rob')}${R('rob')==='Ativo'&&V('rob_esp')?' — '+V('rob_esp'):''}`);
+  if(R('api'))l(`API Full: ${R('api')}`);
+  if(R('safe'))l(`CPJ Safe: ${R('safe')}${R('safe')==='Ativo'&&V('safe_usr')?' — '+V('safe_usr')+' usuários':''}`);
+  if(R('hcons'))l(`Horas de consultoria: ${R('hcons')}${R('hcons')==='Incluso'&&V('hcons_qtd')?' — '+V('hcons_qtd')+'h':''}`);
+  if(V('obs_com'))l(`Observações: ${V('obs_com')}`);
+
+  l(``);l(`──────────────────────────────────────────────────`);l(``);l(`5. ABORDAGEM DE IMPLEMENTAÇÃO`);l(``);
+  if(V('pre'))l(`Atendimentos pré-GoLive: ${V('pre')}`);if(V('pos'))l(`Atendimentos pós-GoLive: ${V('pos')}`);
+  if(V('kickoff')){l(``);l(`Instruções kick-off:`);l(V('kickoff'));}if(V('obs_tec')){l(``);l(`Riscos técnicos:`);l(V('obs_tec'));}
+
+  l(``);l(`──────────────────────────────────────────────────`);l(``);l(`6. CRONOGRAMA`);l(``);
+  if(V('dt_kick'))l(`Kick-off: ${FD(V('dt_kick'))}`);if(V('resp_base'))l(`Resp. base: ${V('resp_base')}`);
+  if(V('dt_base'))l(`Prazo base: ${FD(V('dt_base'))}`);if(V('dt_gl'))l(`GoLive: ${FD(V('dt_gl'))}`);
+  if(V('marcos'))l(`Outros marcos: ${V('marcos')}`);
+
+  l(``);l(`──────────────────────────────────────────────────`);l(``);l(`7. TIME INTERNO`);l(``);
+  l(`Implementador: ${V('impl')||'A definir'}`);l(`PMO: ${V('pmo')||'—'}`);l(`CS: ${V('cs')||'—'}`);
+
+  l(``);l(`──────────────────────────────────────────────────`);l(``);l(`8. ITENS DE AÇÃO`);l(``);
+  if(acts.length)acts.forEach(a=>l(`• [ ] ${a}`));else l(`• [ ] (nenhum item registrado)`);
+
+  if(sis==='CPJ Cobrança'){
+    l(``);l(`──────────────────────────────────────────────────`);l(``);l(`9. CPJ COBRANÇA — ESCOPO`);l(``);
+    const cu=V('cob_u'),cg=V('cob_g');if(cu||cg)l(`Usuários: ${cu||'—'} | Gestores: ${cg||'—'}`);
+    const carts=[...document.querySelectorAll('#cart-list .crow')].map(row=>{const n=row.querySelector('input')?.value?.trim(),c=row.querySelector('select')?.value;return n?`${n}${c?' — '+c:''}`:null}).filter(Boolean);
+    if(carts.length){l(``);l(`Carteiras:`);carts.forEach(c=>l(`  • ${c}`));}
+    l(``);l(`Migração:`);
+    if(R('cob_orig'))l(`  Origem: ${R('cob_orig')}${R('cob_orig')==='Outro'?' — '+V('cob_orig_t'):''}`);
+    if(R('cob_env'))l(`  Envio: ${R('cob_env')}`);
+    const cd=CC('cob_d');if(cd.length)l(`  Dados: ${cd.join(', ')}`);
+    if(cd.includes('Documentos')&&R('cob_ciente'))l(`  Ciência docs: ${R('cob_ciente')}`);
+    const ci=CC('cob_int');if(ci.length){l(``);l(`Integrações:`);ci.forEach(i=>l(`  • ${i}`));}
+    if(ci.includes('Higienização de Dados')&&R('cob_hig'))l(`  Fornecedor higienização: ${R('cob_hig')}`);
+    l(``);l(`Cálculos:`);
+    if(R('cob_calc'))l(`  Verificação: ${R('cob_calc')}`);if(V('cob_calc_t'))l(`  Regras: ${V('cob_calc_t')}`);if(R('cob_docC'))l(`  Documentação: ${R('cob_docC')}`);
+    l(``);if(R('cob_vir'))l(`Virada: ${R('cob_vir')}`);if(V('cob_obs_v'))l(`Obs virada: ${V('cob_obs_v')}`);
+  }
+
+  const blob=new Blob([L.join('\n')],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download=`resumo_${(V('cliente')||'projeto').replace(/\s+/g,'_').toLowerCase()}_${hoje().replace(/\//g,'-')}.txt`;
+  a.click();alert('Resumo gerado e download iniciado!');
+}
+</script>
+</body>
+</html>
