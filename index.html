@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Novo Projeto — Preâmbulo Tech</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <style>
 /* ─── TOKENS ─────────────────────────────────────────────── */
 :root {
@@ -22,7 +23,10 @@
 body { font-family: Calibri, 'Segoe UI', sans-serif; background: #c8cdd3; color: var(--dg); min-height: 100vh; }
 
 /* ─── PÁGINA ─────────────────────────────────────────────── */
-.pg { max-width: 960px; margin: 0 auto; padding: 36px 20px 72px; }
+.pg { max-width: 960px; margin: 0 auto; padding: 36px 20px 72px; display: none; }
+#auth-gate { text-align: center; padding: 3rem 1rem; font-family: 'Montserrat', sans-serif; color: var(--ch); }
+#auth-gate h2 { font-size: 18px; font-weight: 700; }
+#auth-gate p { margin-top: .5rem; font-size: 13px; color: #888; }
 
 /* ─── HEADER (split) ─────────────────────────────────────── */
 .hd { display: flex; border-radius: 4px 4px 0 0; overflow: hidden; }
@@ -142,6 +146,11 @@ select {
 </style>
 </head>
 <body>
+<div id="auth-gate">
+  <h2>Verificando acesso...</h2>
+  <p>Este formulário é de uso interno da Preâmbulo Tech.</p>
+</div>
+
 <div class="pg">
 
 <!-- HEADER -->
@@ -528,6 +537,25 @@ select {
 
 </div><!-- /pg -->
 <script>
+/* ── auth gate (Netlify Identity) ── */
+if (window.netlifyIdentity) {
+  window.netlifyIdentity.on('init', user => {
+    if (user) {
+      document.getElementById('auth-gate').style.display = 'none';
+      document.querySelector('.pg').style.display = 'block';
+    } else {
+      document.getElementById('auth-gate').innerHTML =
+        '<h2>Acesso restrito</h2><p>Este formulário é de uso interno da Preâmbulo Tech.<br>Faça login para continuar.</p>';
+      window.netlifyIdentity.open();
+      window.netlifyIdentity.on('login', () => {
+        document.getElementById('auth-gate').style.display = 'none';
+        document.querySelector('.pg').style.display = 'block';
+        window.netlifyIdentity.close();
+      });
+    }
+  });
+}
+
 /* ── data ── */
 const DN=['domingo','segunda-feira','terça-feira','quarta-feira','quinta-feira','sexta-feira','sábado'],MN=['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
 const _n=new Date();document.getElementById('hdata').textContent=`${DN[_n.getDay()]}, ${_n.getDate()} de ${MN[_n.getMonth()]} de ${_n.getFullYear()}`;
