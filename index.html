@@ -266,6 +266,7 @@ select {
         <label><input type="radio" name="exp" value="A verificar"><span>A Verificar</span></label>
       </div>
     </div>
+    <div class="f" id="exp-nome-f" style="display:none"><label>Nome do(s) Usuário(s)</label><input type="text" id="exp_nome" placeholder="Ex: Maria Silva"></div>
     <div class="f"><label>Perfil Operacional</label>
       <div class="pills">
         <label><input type="checkbox" name="perf" value="Bastante manual"><span>Bastante Manual</span></label>
@@ -639,6 +640,7 @@ document.querySelectorAll('input[name="sis"]').forEach(i=>i.addEventListener('ch
 document.getElementById('produto').addEventListener('change',updDisc);
 
 /* ── sub-campos simples ── */
+document.querySelectorAll('input[name="exp"]').forEach(i=>i.addEventListener('change',()=>SH('exp-nome-f',R('exp')==='Sim')));
 document.querySelectorAll('input[name="nf"]').forEach(i=>i.addEventListener('change',()=>SH('nf-mun',R('nf')==='Ativa')));
 document.querySelectorAll('input[name="bank"]').forEach(i=>i.addEventListener('change',()=>SH('bank-tipo',R('bank')==='Ativo')));
 document.querySelectorAll('input[name="intim"]').forEach(i=>i.addEventListener('change',()=>SH('intim-t',R('intim')==='Ativo')));
@@ -671,7 +673,7 @@ function limpar(){
   document.getElementById('s09').classList.add('oculto');
   document.getElementById('prod-f').style.display='flex';
   document.querySelectorAll('.c3,.cof,.ccob').forEach(e=>e.style.display='none');
-  ['nf-mun','bank-tipo','intim-t','rob-esp','safe-usr','hcons-qtd','cob-orig-out','cob-higien','d-oab','d-cpfcnpj','d-proc','d-count'].forEach(id=>SH(id,false));
+  ['exp-nome-f','nf-mun','bank-tipo','intim-t','rob-esp','safe-usr','hcons-qtd','cob-orig-out','cob-higien','d-oab','d-cpfcnpj','d-proc','d-count'].forEach(id=>SH(id,false));
   document.getElementById('disc-bloco').classList.remove('on');
   document.getElementById('copia-bloco').classList.remove('on');
   const cd=document.getElementById('cob-docs-av');if(cd)cd.style.display='none';
@@ -710,7 +712,7 @@ function resumo(){
 
   l(``);l(`──────────────────────────────────────────────────`);l(``);l(`2. CONTEXTO DO CLIENTE`);l(``);
   if(V('focal'))l(`Ponto focal: ${V('focal')}`);l(`E-mail: ${V('focal_email')||'—'}`);l(`Telefone: ${V('focal_tel')||'—'}`);
-  if(V('prop'))l(`Proprietário: ${V('prop')}`);if(R('exp'))l(`Experiência no sistema: ${R('exp')}`);
+  if(V('prop'))l(`Proprietário: ${V('prop')}`);if(R('exp'))l(`Experiência no sistema: ${R('exp')}${R('exp')==='Sim'&&V('exp_nome')?' — '+V('exp_nome'):''}`);
   const pf=CC('perf');if(pf.length)l(`Perfil: ${pf.join(' · ')}`);if(V('obs_cli')){l(``);l(V('obs_cli'));}
 
   l(``);l(`──────────────────────────────────────────────────`);l(``);l(`3. DORES E OBJETIVOS`);l(``);
